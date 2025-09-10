@@ -1,0 +1,47 @@
+<!-- public/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Express API Test</title>
+</head>
+<body>
+    <h1>Message Sender</h1>
+
+    <!-- Input and button for sending message -->
+    <input type="text" id="messageInput" placeholder="Type your message here...">
+    <button onclick="sendMessage()">Send Message</button>
+
+    <!-- Display message -->
+    <p id="displayMessage"></p>
+
+    <script>
+        // Function to send message to the API
+        async function sendMessage() {
+            const message = document.getElementById('messageInput').value;
+            if (!message) return;
+
+            // Clear the message input after sending
+            document.getElementById('messageInput').value = '';
+
+            // Send the message to the server
+            await fetch('/api/what', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ message: message })
+            });
+
+            // Display the message temporarily
+            document.getElementById('displayMessage').textContent = message;
+
+            // Remove the message after 1 second
+            setTimeout(() => {
+                document.getElementById('displayMessage').textContent = '';
+            }, 1000);
+        }
+    </script>
+</body>
+</html>
